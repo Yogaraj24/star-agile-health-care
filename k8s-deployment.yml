@@ -1,0 +1,35 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: health-deployment
+  labels:
+    app: healthcare
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: healthcare
+  template:
+    metadata:
+      labels:
+        app: healthcare
+    spec:
+      containers:
+        - name: healthcare
+          image: yogaraj2484/healthcare:latest
+          ports:
+            - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: healthcare-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: healthcare
+  ports:
+    - port: 80
+      targetPort: 8082
+      nodePort: 32057
